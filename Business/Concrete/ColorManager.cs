@@ -1,4 +1,8 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete.DataResults;
+using Core.Utilities.Results.Concrete.VoidResults;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -17,29 +21,36 @@ namespace Business.Concrete
 			_iColorDal = iColorDal;
 		}
 
-		public void Add(Color color)
+		public IResult Add(Color color)
 		{
+			if (color.ColorName.Length <= 1)
+			{
+				return new ErrorResult(Messages.InvalidColorName);
+			}
 			_iColorDal.Add(color);
+			return new SuccessResult(Messages.ColorAddedMessage);
 		}
 
-		public void Delete(Color color)
+		public IResult Delete(Color color)
 		{
 			_iColorDal.Delete(color);
+			return new SuccessResult(Messages.ColorDeletedMessage);
 		}
 
-		public List<Color> GetAll()
+		public IDataResult<List<Color>> GetAll()
 		{
-			return _iColorDal.GetAll();
+			return new SuccessDataResult<List<Color>>(_iColorDal.GetAll());
 		}
 
-		public List<Color> GetAllByColorId(int colorId)
+		public IDataResult<List<Color>> GetAllByColorId(int colorId)
 		{
-			return _iColorDal.GetAll(c => c.ColorID == colorId);
+			return new SuccessDataResult<List<Color>>(_iColorDal.GetAll(c => c.ColorID == colorId));
 		}
 
-		public void Update(Color color)
+		public IResult Update(Color color)
 		{
 			_iColorDal.Update(color);
+			return new SuccessResult(Messages.ColorUpdatedMessage);
 		}
 	}
 }
