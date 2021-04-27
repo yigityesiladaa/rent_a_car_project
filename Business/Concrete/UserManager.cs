@@ -37,10 +37,11 @@ namespace Business.Concrete
 			return new SuccessDataResult<List<User>>(_iUserDal.GetAll());
 		}
 
-		public IDataResult<List<User>> GetAllByUserId(int userId)
+		public IDataResult<User> GetById(int userId)
 		{
-			return new SuccessDataResult<List<User>>(_iUserDal.GetAll(u => u.Id == userId));
+			return new SuccessDataResult<User>(_iUserDal.Get(u => u.Id == userId));
 		}
+
 
 		public IResult Update(User user)
 		{

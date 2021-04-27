@@ -20,7 +20,7 @@ namespace ConsoleUI
 		{
 			RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
-			var result = rentalManager.Add(new Rental { CarId = 1, CustomerId = 4, RentDate = DateTime.Now, ReturnDate = DateTime.Today });
+			var result = rentalManager.Add(new Rental { CarId = 1, CustomerId = 4, RentDate = DateTime.Now });
 
 			if (result.Success)
 			{

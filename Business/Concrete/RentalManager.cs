@@ -7,6 +7,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -22,12 +23,16 @@ namespace Business.Concrete
 
 		public IResult Add(Rental rental)
 		{
-			if (rental.ReturnDate == null)
+			var result = _iRentalDal.GetAll(r => r.CarId == rental.CarId && r.ReturnDate == null);
+			if (result.Any())
 			{
-				return new ErrorResult(Messages.RentalAddFailedMesssage);
+				return new ErrorResult(Messages.CarNotAddedMessage);
 			}
+
 			_iRentalDal.Add(rental);
-			return new SuccessResult(Messages.RentalAddedMessage);
+
+			return new SuccessResult(Messages.CarAddedMessage);
+
 		}
 
 		public IResult Delete(Rental rental)
@@ -51,9 +56,9 @@ namespace Business.Concrete
 			return new SuccessDataResult<List<Rental>>(_iRentalDal.GetAll(r => r.CustomerId == customerId));
 		}
 
-		public IDataResult<List<Rental>> GetAllByRentalId(int rentalId)
+		public IDataResult<Rental> GetById(int rentalId)
 		{
-			return new SuccessDataResult<List<Rental>>(_iRentalDal.GetAll(r => r.Id == rentalId));
+			return new SuccessDataResult<Rental>(_iRentalDal.Get(r => r.Id == rentalId));
 		}
 
 		public IResult Update(Rental rental)
