@@ -8,6 +8,8 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Aspects.Autofac.Validation;
+using Business.ValidationRules.FluentValidation;
 
 namespace Business.Concrete
 {
@@ -19,6 +21,7 @@ namespace Business.Concrete
 		{
 			_iBrandDal = iBrandDal;
 		}
+		[ValidationAspect(typeof (BrandValidator))]
 		public IResult Add(Brand brand)
 		{
 			if(brand.BrandName.Length < 2)
