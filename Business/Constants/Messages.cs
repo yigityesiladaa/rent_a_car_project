@@ -45,5 +45,6 @@ namespace Business.Constants
 
 		//Common Messages
 		public static string MaintenanceTime = "Maintenance Time!";
+		internal static string CarImageAdded;
 	}
 }
